@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  google-site-verification: googleae187f48b34b50c0.html
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>NairaTrack — Expense Tracker App for Nigerians</title>
+<meta name="description" content="NairaTrack is a free, lightweight expense tracker for everyday spending in Naira. Record expenses, see monthly totals, and install it as an app on Android or iPhone.">
+
+  <!-- PWA Meta -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b1120">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="NairaTrack">
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Supabase JS Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast" hidden></div>
+
+  <!-- Header -->
+  <header class="navbar">
+    <div class="logo">
+      <span class="logo-box">₦</span>
+      <span class="logo-text">NairaTrack</span>
+    </div>
+    <div class="nav-buttons">
+      <button id="installAppBtn" class="btn-install" hidden>📲 Install App</button>
+      <button id="logoutBtn" class="btn-logout" hidden>Logout</button>
+    </div>
+  </header>
+
+  <!-- Content Container -->
+  <main class="app-body">
+
+    <!-- 1. AUTH SCREEN (Shows when logged out) -->
+    <div id="authScreen" class="card auth-card">
+      <h2 id="authHeading">Sign In</h2>
+      <p id="authSubtitle" class="subtext">Access your personal expense dashboard</p>
+
+      <form id="authForm">
+        <div class="input-group">
+          <label for="authEmail">Email</label>
+          <input type="email" id="authEmail" placeholder="you@gmail.com" required autocomplete="email">
+        </div>
+
+        <div class="input-group">
+          <label for="authPassword">Password</label>
+          <input type="password" id="authPassword" placeholder="••••••••" minlength="6" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" id="authSubmitBtn" class="btn-submit">Sign In</button>
+      </form>
+
+      <div class="auth-toggle">
+        <span id="authToggleText">Don't have an account?</span>
+        <button type="button" id="authToggleBtn">Sign Up</button>
+      </div>
+    </div>
+
+    <!-- 2. DASHBOARD SCREEN (Shows when logged in) -->
+    <div id="dashboardScreen" class="dashboard-screen" hidden>
+
+      <!-- Monthly Summary Banner -->
+      <div class="summary-card">
+        <span class="summary-label">TOTAL SPENT THIS MONTH</span>
+        <h1 id="totalSpentText" class="summary-total">₦0</h1>
+        <span id="summaryCountText" class="summary-count">0 transactions</span>
+      </div>
+
+      <!-- Add Expense Form -->
+      <div class="card">
+        <h3 class="card-title">Add Expense</h3>
+        <form id="expenseForm">
+          <div class="form-grid">
+            <div class="input-group">
+              <label for="expenseAmount">Amount (₦)</label>
+              <input type="number" id="expenseAmount" placeholder="3000" min="1" step="any" required>
+            </div>
+            <div class="input-group">
+              <label for="expenseCategory">Category</label>
+              <select id="expenseCategory" required>
+                <option value="Food & Drinks">🍔 Food & Drinks</option>
+                <option value="Transport">🚖 Transport</option>
+                <option value="Data & Airtime">📶 Data & Airtime</option>
+                <option value="Gadgets & Tools">💻 Gadgets & Tech</option>
+                <option value="Personal & Shopping">🛍️ Shopping</option>
+                <option value="Bills & Rent">🏠 Bills & Rent</option>
+                <option value="Other">📦 Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="expenseDesc">Description (Optional)</label>
+            <input type="text" id="expenseDesc" placeholder="e.g. Suya at Plaza, MTN 10GB data">
+          </div>
+
+          <button type="submit" id="saveExpenseBtn" class="btn-submit">Save Expense</button>
+        </form>
+      </div>
+
+      <!-- Transactions List -->
+      <div class="transactions-section">
+        <h3 class="card-title">Recent Transactions</h3>
+        <div id="transactionsContainer" class="tx-container">
+          <p class="empty-state">Loading expenses...</p>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
